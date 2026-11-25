@@ -10,33 +10,156 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedMyBookingsRouteImport } from './routes/_authenticated/my-bookings'
+import { Route as AuthenticatedStatisticsRouteImport } from './routes/_authenticated/statistics'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminMoviesRouteImport } from './routes/_authenticated/admin/movies'
+import { Route as AuthenticatedAdminScreeningsRouteImport } from './routes/_authenticated/admin/screenings'
+import { Route as AuthenticatedAdminTheatreSetupRouteImport } from './routes/_authenticated/admin/theatre-setup'
+import { Route as AuthenticatedScreeningsScreeningIdRouteImport } from './routes/_authenticated/screenings/$screeningId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedMyBookingsRoute = AuthenticatedMyBookingsRouteImport.update({
+  id: '/my-bookings',
+  path: '/my-bookings',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedStatisticsRoute = AuthenticatedStatisticsRouteImport.update({
+  id: '/statistics',
+  path: '/statistics',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminMoviesRoute =
+  AuthenticatedAdminMoviesRouteImport.update({
+    id: '/movies',
+    path: '/movies',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminScreeningsRoute =
+  AuthenticatedAdminScreeningsRouteImport.update({
+    id: '/screenings',
+    path: '/screenings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminTheatreSetupRoute =
+  AuthenticatedAdminTheatreSetupRouteImport.update({
+    id: '/theatre-setup',
+    path: '/theatre-setup',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedScreeningsScreeningIdRoute =
+  AuthenticatedScreeningsScreeningIdRouteImport.update({
+    id: '/screenings/$screeningId',
+    path: '/screenings/$screeningId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/my-bookings': typeof AuthenticatedMyBookingsRoute
+  '/statistics': typeof AuthenticatedStatisticsRoute
+  '/admin/movies': typeof AuthenticatedAdminMoviesRoute
+  '/admin/screenings': typeof AuthenticatedAdminScreeningsRoute
+  '/admin/theatre-setup': typeof AuthenticatedAdminTheatreSetupRoute
+  '/screenings/$screeningId': typeof AuthenticatedScreeningsScreeningIdRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/my-bookings': typeof AuthenticatedMyBookingsRoute
+  '/statistics': typeof AuthenticatedStatisticsRoute
+  '/admin/movies': typeof AuthenticatedAdminMoviesRoute
+  '/admin/screenings': typeof AuthenticatedAdminScreeningsRoute
+  '/admin/theatre-setup': typeof AuthenticatedAdminTheatreSetupRoute
+  '/screenings/$screeningId': typeof AuthenticatedScreeningsScreeningIdRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/my-bookings': typeof AuthenticatedMyBookingsRoute
+  '/_authenticated/statistics': typeof AuthenticatedStatisticsRoute
+  '/_authenticated/admin/movies': typeof AuthenticatedAdminMoviesRoute
+  '/_authenticated/admin/screenings': typeof AuthenticatedAdminScreeningsRoute
+  '/_authenticated/admin/theatre-setup': typeof AuthenticatedAdminTheatreSetupRoute
+  '/_authenticated/screenings/$screeningId': typeof AuthenticatedScreeningsScreeningIdRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/admin'
+    | '/my-bookings'
+    | '/statistics'
+    | '/admin/movies'
+    | '/admin/screenings'
+    | '/admin/theatre-setup'
+    | '/screenings/$screeningId'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/my-bookings'
+    | '/statistics'
+    | '/admin/movies'
+    | '/admin/screenings'
+    | '/admin/theatre-setup'
+    | '/screenings/$screeningId'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/admin'
+    | '/_authenticated/my-bookings'
+    | '/_authenticated/statistics'
+    | '/_authenticated/admin/movies'
+    | '/_authenticated/admin/screenings'
+    | '/_authenticated/admin/theatre-setup'
+    | '/_authenticated/screenings/$screeningId'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +171,119 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/my-bookings': {
+      id: '/_authenticated/my-bookings'
+      path: '/my-bookings'
+      fullPath: '/my-bookings'
+      preLoaderRoute: typeof AuthenticatedMyBookingsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/statistics': {
+      id: '/_authenticated/statistics'
+      path: '/statistics'
+      fullPath: '/statistics'
+      preLoaderRoute: typeof AuthenticatedStatisticsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/movies': {
+      id: '/_authenticated/admin/movies'
+      path: '/movies'
+      fullPath: '/admin/movies'
+      preLoaderRoute: typeof AuthenticatedAdminMoviesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/screenings': {
+      id: '/_authenticated/admin/screenings'
+      path: '/screenings'
+      fullPath: '/admin/screenings'
+      preLoaderRoute: typeof AuthenticatedAdminScreeningsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/theatre-setup': {
+      id: '/_authenticated/admin/theatre-setup'
+      path: '/theatre-setup'
+      fullPath: '/admin/theatre-setup'
+      preLoaderRoute: typeof AuthenticatedAdminTheatreSetupRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/screenings/$screeningId': {
+      id: '/_authenticated/screenings/$screeningId'
+      path: '/screenings/$screeningId'
+      fullPath: '/screenings/$screeningId'
+      preLoaderRoute: typeof AuthenticatedScreeningsScreeningIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminMoviesRoute: typeof AuthenticatedAdminMoviesRoute
+  AuthenticatedAdminScreeningsRoute: typeof AuthenticatedAdminScreeningsRoute
+  AuthenticatedAdminTheatreSetupRoute: typeof AuthenticatedAdminTheatreSetupRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminMoviesRoute: AuthenticatedAdminMoviesRoute,
+  AuthenticatedAdminScreeningsRoute: AuthenticatedAdminScreeningsRoute,
+  AuthenticatedAdminTheatreSetupRoute: AuthenticatedAdminTheatreSetupRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+  AuthenticatedMyBookingsRoute: typeof AuthenticatedMyBookingsRoute
+  AuthenticatedStatisticsRoute: typeof AuthenticatedStatisticsRoute
+  AuthenticatedScreeningsScreeningIdRoute: typeof AuthenticatedScreeningsScreeningIdRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+  AuthenticatedMyBookingsRoute: AuthenticatedMyBookingsRoute,
+  AuthenticatedStatisticsRoute: AuthenticatedStatisticsRoute,
+  AuthenticatedScreeningsScreeningIdRoute:
+    AuthenticatedScreeningsScreeningIdRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

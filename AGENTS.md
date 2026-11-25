@@ -1,4 +1,5 @@
 <!-- LOVABLE:BEGIN -->
+
 > [!IMPORTANT]
 > This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
 > published git history — force pushing, or rebasing/amending/squashing commits
@@ -27,4 +28,13 @@ use the editor.
   `LOVABLE_API_KEY`. When Lovable does not provide one, users can bring their
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
+
 <!-- LOVABLE:END -->
+
+## Cinema One architecture
+
+- Enforce writes and cross-member reads through SECURITY DEFINER PostgreSQL functions with public search_path; browser code only calls RPCs and public or own-row reads, so database rules remain authoritative.
+- Keep shared account queries in src/lib/account.ts, a single account listener in AccountProvider, and a pathless _authenticated.tsx gate; role checks query is_admin and never browser storage.
+- Use dedicated TanStack content routes and shared SiteHeader, SeatMap, and CinemaUI components; this keeps seat layout and navigation consistent.
+- Initial route data is loaded into TanStack Query; seat-status queries disable automatic refetch and are refreshed only on explicit requests or stale-seat rejections.
+- Maintain no-data tests for seat layout and advisory selection rules alongside SQL contract checks; never create test bookings or accounts.

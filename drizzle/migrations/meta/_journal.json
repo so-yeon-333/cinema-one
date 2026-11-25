@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1795621334690,
+      "tag": "0000_cinema_one_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795621384691,
+      "tag": "0001_movie_screening_schedule",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795621561640,
+      "tag": "0002_history_refunds_theatre_setup",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1795621646246,
+      "tag": "0003_seat_booking_mock_payment",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795621733289,
+      "tag": "0004_administrator_sales_statistics",
+      "breakpoints": true
+    }
+  ]
+}
